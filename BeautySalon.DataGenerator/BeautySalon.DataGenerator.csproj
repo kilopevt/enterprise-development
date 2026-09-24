@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-BeautySalon.DataGenerator-c1a11fdb-c00b-44ef-83a1-f61f12e718a2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="35.6.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BeautySalon.Domain\BeautySalon.Domain.csproj" />
+    <ProjectReference Include="..\BeautySalon.ServiceDefaults\BeautySalon.ServiceDefaults.csproj" />
+  </ItemGroup>
+</Project>
