@@ -601,3 +601,10 @@ $RECYCLE.BIN/
 *.swp
 =======
 >>>>>>> 5594d0bee5cb3e499215ed5e98f4028419ca2037
+
+# Проекты для будущих лабораторных
+BeautySalon.Infrastructure/
+BeautySalon.Server/
+BeautySalon.DataGenerator/
+BeautySalon.AppHost/
+BeautySalon.ServiceDefaults/
