@@ -1,10 +1,22 @@
 namespace BeautySalon.Domain.Entities;
 
+/// <summary>
+/// Клиент салона красоты.
+/// </summary>
 public class Client : Person
 {
+    /// <summary>
+    /// Дата рождения.
+    /// </summary>
     public DateTime BirthDate { get; set; }
-    public string Phone { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Контактный телефон.
+    /// </summary>
+    public required string Phone { get; set; }
     
-    // у одного клиента может быть много записей
-    public List<Appointment> Appointments { get; set; } = new();
+    /// <summary>
+    /// Записи клиента на услуги.
+    /// </summary>
+    public List<Appointment> Appointments { get; set; } = [];
 }
