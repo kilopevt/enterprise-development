@@ -604,7 +604,6 @@ $RECYCLE.BIN/
 
 # Проекты для будущих лабораторных
 BeautySalon.Infrastructure/
-BeautySalon.Server/
 BeautySalon.DataGenerator/
 BeautySalon.AppHost/
 BeautySalon.ServiceDefaults/

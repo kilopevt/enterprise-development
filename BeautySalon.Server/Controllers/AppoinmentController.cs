@@ -10,9 +10,9 @@ public class AppointmentRequest
 {
     public DateTime StartTime { get; set; }
     public bool IsRegularClient { get; set; }
-    public string ClientId { get; set; } = string.Empty;
-    public string MasterId { get; set; } = string.Empty;
-    public string ServiceId { get; set; } = string.Empty;
+    public required string ClientId { get; set; }
+    public required string MasterId { get; set; }
+    public required string ServiceId { get; set; }
 }
 
 [ApiController]
