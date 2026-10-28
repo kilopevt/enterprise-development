@@ -1,89 +1,76 @@
 using BeautySalon.Domain.Entities;
 using BeautySalon.Domain.Enums;
-using Bogus;
 
 namespace BeautySalon.Domain.Data;
 
 /// <summary>
-/// Генератор тестовых данных.
-/// Данные детерминированы.
+/// Список тестовых данных.
 /// </summary>
 public static class SeedData
 {
-    /// <summary>
-    /// Клиенты салона.
-    /// </summary>
     public static List<Client> Clients { get; private set; } = [];
-
-    /// <summary>
-    /// Мастера салона.
-    /// </summary>
     public static List<Master> Masters { get; private set; } = [];
-
-    /// <summary>
-    /// Справочник услуг.
-    /// </summary>
     public static List<Service> Services { get; private set; } = [];
-
-    /// <summary>
-    /// Записи клиентов на услуги.
-    /// </summary>
     public static List<Appointment> Appointments { get; private set; } = [];
 
-    /// <summary>
-    /// Инициализирует датасид. Повторный вызов не перегенерирует данные.
-    /// </summary>
     public static void Initialize()
     {
         if (Clients.Count > 0) return;
 
-        Randomizer.Seed = new Random(42);
-
         // Клиенты
-        var clientFaker = new Faker<Client>("ru")
-            .RuleFor(c => c.Id, (_, _) => string.Empty)
-            .RuleFor(c => c.FullName, f => f.Name.FullName())
-            .RuleFor(c => c.Gender, f => f.PickRandom<Gender>())
-            .RuleFor(c => c.BirthDate, f => f.Date.Past(60))
-            .RuleFor(c => c.Phone, f => f.Phone.PhoneNumber("+7 (###) ###-##-##"));
+        Clients = 
+        [
+            new() { Id = 1, FullName = "Иванов Иван Иванович", Gender = Gender.Male, BirthDate = new DateTime(1980, 1, 1), Phone = "+7 (900) 000-00-01" },
+            new() { Id = 2, FullName = "Петрова Мария Сергеевна", Gender = Gender.Female, BirthDate = new DateTime(1990, 6, 15), Phone = "+7 (900) 000-00-02" },
+            new() { Id = 3, FullName = "Сидоров Алексей Петрович", Gender = Gender.Male, BirthDate = new DateTime(2000, 12, 31), Phone = "+7 (900) 000-00-03" },
+            new() { Id = 4, FullName = "Кузнецова Ольга Дмитриевна", Gender = Gender.Female, BirthDate = new DateTime(1985, 5, 5), Phone = "+7 (900) 000-00-04" },
+            new() { Id = 5, FullName = "Смирнов Дмитрий Андреевич", Gender = Gender.Male, BirthDate = new DateTime(1995, 8, 20), Phone = "+7 (900) 000-00-05" },
+            new() { Id = 6, FullName = "Волкова Анна Игоревна", Gender = Gender.Female, BirthDate = new DateTime(1988, 3, 12), Phone = "+7 (900) 000-00-06" },
+            new() { Id = 7, FullName = "Морозов Николай Васильевич", Gender = Gender.Male, BirthDate = new DateTime(1975, 11, 30), Phone = "+7 (900) 000-00-07" },
+            new() { Id = 8, FullName = "Павлова Елена Олеговна", Gender = Gender.Female, BirthDate = new DateTime(1992, 7, 7), Phone = "+7 (900) 000-00-08" },
+            new() { Id = 9, FullName = "Соколов Артем Максимович", Gender = Gender.Male, BirthDate = new DateTime(1998, 2, 14), Phone = "+7 (900) 000-00-09" },
+            new() { Id = 10, FullName = "Лебедева Виктория Сергеевна", Gender = Gender.Female, BirthDate = new DateTime(1983, 9, 25), Phone = "+7 (900) 000-00-10" },
+            new() { Id = 11, FullName = "Козлов Михаил Юрьевич", Gender = Gender.Male, BirthDate = new DateTime(1970, 4, 10), Phone = "+7 (900) 000-00-11" },
+            new() { Id = 12, FullName = "Новикова Дарья Александровна", Gender = Gender.Female, BirthDate = new DateTime(1999, 12, 5), Phone = "+7 (900) 000-00-12" },
+            new() { Id = 13, FullName = "Егоров Сергей Владимирович", Gender = Gender.Male, BirthDate = new DateTime(1987, 8, 18), Phone = "+7 (900) 000-00-13" },
+            new() { Id = 14, FullName = "Орлова Ксения Павловна", Gender = Gender.Female, BirthDate = new DateTime(1994, 1, 22), Phone = "+7 (900) 000-00-14" },
+            new() { Id = 15, FullName = "Федоров Андрей Игоревич", Gender = Gender.Male, BirthDate = new DateTime(1981, 6, 30), Phone = "+7 (900) 000-00-15" }
+        ];
 
-        Clients = clientFaker.Generate(15);
-        for (var i = 0; i < Clients.Count; i++)
-        {
-            Clients[i].Id = (i + 1).ToString("D3");
-        }
-
-        // Мастера
-        var masterFaker = new Faker<Master>("ru")
-            .RuleFor(m => m.Id, (_, _) => string.Empty)
-            .RuleFor(m => m.FullName, f => f.Name.FullName())
-            .RuleFor(m => m.Gender, f => f.PickRandom<Gender>())
-            .RuleFor(m => m.PassportNumber, f => f.Random.Replace("## ## ######"))
-            .RuleFor(m => m.Specialization, f => f.PickRandom("Парикмахер", "Мастер маникюра", "Косметолог", "Массажист", "Визажист"))
-            .RuleFor(m => m.ExperienceYears, f => f.Random.Int(1, 20));
-
-        Masters = masterFaker.Generate(12);
-        for (var i = 0; i < Masters.Count; i++)
-        {
-            Masters[i].Id = (101 + i).ToString("D3");
-        }
+        // Мастеры
+        Masters = 
+        [
+            new() { Id = 101, FullName = "Петров Петр Петрович", Gender = Gender.Male, PassportNumber = "11 11 111111", Specialization = "Парикмахер", ExperienceYears = 10 },
+            new() { Id = 102, FullName = "Смирнова Ольга Ивановна", Gender = Gender.Female, PassportNumber = "22 22 222222", Specialization = "Косметолог", ExperienceYears = 7 },
+            new() { Id = 103, FullName = "Сидоров Сидор Сидорович", Gender = Gender.Male, PassportNumber = "33 33 333333", Specialization = "Массажист", ExperienceYears = 2 },
+            new() { Id = 104, FullName = "Кузнецова Мария Ивановна", Gender = Gender.Female, PassportNumber = "44 44 444444", Specialization = "Мастер маникюра", ExperienceYears = 12 },
+            new() { Id = 105, FullName = "Попов Алексей Николаевич", Gender = Gender.Male, PassportNumber = "55 55 555555", Specialization = "Визажист", ExperienceYears = 6 },
+            new() { Id = 106, FullName = "Васильева Елена Дмитриевна", Gender = Gender.Female, PassportNumber = "66 66 666666", Specialization = "Парикмахер", ExperienceYears = 15 },
+            new() { Id = 107, FullName = "Михайлов Игорь Олегович", Gender = Gender.Male, PassportNumber = "77 77 777777", Specialization = "Массажист", ExperienceYears = 4 },
+            new() { Id = 108, FullName = "Федорова Анна Сергеевна", Gender = Gender.Female, PassportNumber = "88 88 888888", Specialization = "Косметолог", ExperienceYears = 8 },
+            new() { Id = 109, FullName = "Николаев Дмитрий Андреевич", Gender = Gender.Male, PassportNumber = "99 99 999999", Specialization = "Мастер маникюра", ExperienceYears = 1 },
+            new() { Id = 110, FullName = "Захарова Ирина Викторовна", Gender = Gender.Female, PassportNumber = "10 10 101010", Specialization = "Визажист", ExperienceYears = 9 },
+            new() { Id = 111, FullName = "Морозов Павел Валерьевич", Gender = Gender.Male, PassportNumber = "12 12 121212", Specialization = "Парикмахер", ExperienceYears = 5 },
+            new() { Id = 112, FullName = "Волкова Оксана Юрьевна", Gender = Gender.Female, PassportNumber = "13 13 131313", Specialization = "Косметолог", ExperienceYears = 3 }
+        ];
 
         // Услуги
-        var serviceFaker = new Faker<Service>("ru")
-            .RuleFor(s => s.Id, (_, _) => string.Empty)
-            .RuleFor(s => s.Name, f => f.PickRandom("Стрижка", "Окрашивание", "Маникюр", "Педикюр", "Чистка лица", "Массаж спины", "Укладка", "Ботокс", "Наращивание ресниц", "Коррекция бровей"))
-            .RuleFor(s => s.Category, f => f.PickRandom("Волосы", "Ногти", "Лицо", "Тело"))
-            .RuleFor(s => s.Cost, f => f.Finance.Amount(500, 5000))
-            .RuleFor(s => s.Duration, f => TimeSpan.FromMinutes(f.PickRandom(30, 60, 90, 120)));
-
-        Services = serviceFaker.Generate(10);
-        for (var i = 0; i < Services.Count; i++)
-        {
-            Services[i].Id = (201 + i).ToString("D3");
-        }
+        Services = 
+        [
+            new() { Id = 201, Name = "Стрижка", Category = "Волосы", Cost = 1500, Duration = TimeSpan.FromMinutes(60) },
+            new() { Id = 202, Name = "Окрашивание", Category = "Волосы", Cost = 3500, Duration = TimeSpan.FromMinutes(120) },
+            new() { Id = 203, Name = "Маникюр", Category = "Ногти", Cost = 1000, Duration = TimeSpan.FromMinutes(60) },
+            new() { Id = 204, Name = "Педикюр", Category = "Ногти", Cost = 1500, Duration = TimeSpan.FromMinutes(90) },
+            new() { Id = 205, Name = "Чистка лица", Category = "Лицо", Cost = 2500, Duration = TimeSpan.FromMinutes(90) },
+            new() { Id = 206, Name = "Массаж спины", Category = "Тело", Cost = 2000, Duration = TimeSpan.FromMinutes(60) },
+            new() { Id = 207, Name = "Укладка", Category = "Волосы", Cost = 800, Duration = TimeSpan.FromMinutes(30) },
+            new() { Id = 208, Name = "Ботокс", Category = "Лицо", Cost = 5000, Duration = TimeSpan.FromMinutes(120) },
+            new() { Id = 209, Name = "Наращивание ресниц", Category = "Лицо", Cost = 3000, Duration = TimeSpan.FromMinutes(90) },
+            new() { Id = 210, Name = "Коррекция бровей", Category = "Лицо", Cost = 700, Duration = TimeSpan.FromMinutes(30) }
+        ];
 
         // Записи
-        var random = new Random(24);
+        var random = new Random(42);
         Appointments = new List<Appointment>(50);
 
         for (var i = 0; i < 50; i++)
@@ -94,7 +81,7 @@ public static class SeedData
 
             Appointments.Add(new Appointment
             {
-                Id = (301 + i).ToString("D3"),
+                Id = 301 + i,
                 StartTime = DateTime.Now.AddDays(random.Next(-60, 30)).AddHours(random.Next(9, 19)),
                 IsRegularClient = random.NextDouble() < 0.3,
                 ClientId = client.Id,

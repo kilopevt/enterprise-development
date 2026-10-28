@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySalon.Server.Controllers;
 
-/// <summary>
-/// Аналитические эндпоинты.
-/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class AnalyticsController : ControllerBase
@@ -17,34 +14,20 @@ public class AnalyticsController : ControllerBase
         _store = store;
     }
 
-    // 1. Мастера со стажем не менее 5 лет
-    // GET: api/analytics/masters-with-experience?minYears=5
     [HttpGet("masters-with-experience")]
     public IActionResult GetMastersWithExperience([FromQuery] int minYears = 5)
     {
         var result = _store.Masters
             .Where(m => m.ExperienceYears >= minYears)
-            .Select(m => new
-            {
-                m.Id,
-                m.FullName,
-                m.Specialization,
-                m.ExperienceYears
-            })
+            .Select(m => new { m.Id, m.FullName, m.Specialization, m.ExperienceYears })
             .ToList();
 
-        return Ok(new
-        {
-            MinYears = minYears,
-            Count = result.Count,
-            Masters = result
-        });
+        return Ok(new { MinYears = minYears, Count = result.Count, Masters = result });
     }
 
-    // 2. Окошки выбранного мастера
-    // GET: api/analytics/master-gaps/{masterId}
-    [HttpGet("master-gaps/{masterId}")]
-    public IActionResult GetMasterTimeGaps(string masterId)
+    // ИСПРАВЛЕНО: string masterId -> int masterId
+    [HttpGet("master-gaps/{masterId:int}")] 
+    public IActionResult GetMasterTimeGaps(int masterId)
     {
         var master = _store.Masters.FirstOrDefault(m => m.Id == masterId);
         if (master == null)
@@ -86,17 +69,9 @@ public class AnalyticsController : ControllerBase
             }
         }
 
-        return Ok(new
-        {
-            MasterId = masterId,
-            MasterName = master.FullName,
-            GapsCount = gaps.Count,
-            Gaps = gaps
-        });
+        return Ok(new { MasterId = masterId, MasterName = master.FullName, GapsCount = gaps.Count, Gaps = gaps });
     }
 
-    // 3. Топ 5 популярных услуг
-    // GET: api/analytics/top-services?take=5
     [HttpGet("top-services")]
     public IActionResult GetTopServices([FromQuery] int take = 5)
     {
@@ -116,8 +91,6 @@ public class AnalyticsController : ControllerBase
         return Ok(top);
     }
 
-    // 4. Количество повторных записей клиентов за последний месяц
-    // GET: api/analytics/repeat-clients?days=30
     [HttpGet("repeat-clients")]
     public IActionResult GetRepeatClients([FromQuery] int days = 30)
     {
@@ -136,16 +109,9 @@ public class AnalyticsController : ControllerBase
             .OrderByDescending(x => x.RepeatCount)
             .ToList();
 
-        return Ok(new
-        {
-            PeriodDays = days,
-            ClientsWithRepeats = repeats.Count,
-            Details = repeats
-        });
+        return Ok(new { PeriodDays = days, ClientsWithRepeats = repeats.Count, Details = repeats });
     }
 
-    // 5. Клиенты, записанные к нескольким мастерам, по дате рождения
-    // GET: api/analytics/clients-multiple-masters
     [HttpGet("clients-multiple-masters")]
     public IActionResult GetClientsWithMultipleMasters()
     {
@@ -162,10 +128,6 @@ public class AnalyticsController : ControllerBase
             .OrderBy(x => x.BirthDate)
             .ToList();
 
-        return Ok(new
-        {
-            Count = result.Count,
-            Clients = result
-        });
+        return Ok(new { Count = result.Count, Clients = result });
     }
 }

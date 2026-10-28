@@ -24,7 +24,7 @@ public class MastersController : ControllerBase
 
     // GET: api/masters/{id}
     [HttpGet("{id}")]
-    public ActionResult<Master> GetById(string id)
+    public ActionResult<Master> GetById(int id)
     {
         var master = _store.Masters.FirstOrDefault(m => m.Id == id);
         if (master == null) return NotFound();
@@ -35,10 +35,7 @@ public class MastersController : ControllerBase
     [HttpPost]
     public ActionResult<Master> Create([FromBody] Master master)
     {
-        if (string.IsNullOrEmpty(master.Id))
-        {
-            master.Id = Guid.NewGuid().ToString("N")[..8];
-        }
+        master.Id = _store.Masters.Any() ? _store.Masters.Max(m => m.Id) + 1 : 1;
         
         _store.Masters.Add(master);
         _store.SaveChanges();
@@ -48,7 +45,7 @@ public class MastersController : ControllerBase
 
     // PUT: api/masters/{id}
     [HttpPut("{id}")]
-    public IActionResult Update(string id, [FromBody] Master updatedMaster)
+    public IActionResult Update(int id, [FromBody] Master updatedMaster)
     {
         var master = _store.Masters.FirstOrDefault(m => m.Id == id);
         if (master == null) return NotFound();
@@ -65,7 +62,7 @@ public class MastersController : ControllerBase
 
     // DELETE: api/masters/{id}
     [HttpDelete("{id}")]
-    public IActionResult Delete(string id)
+    public IActionResult Delete(int id)
     {
         var master = _store.Masters.FirstOrDefault(m => m.Id == id);
         if (master == null) return NotFound();

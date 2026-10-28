@@ -10,9 +10,9 @@ public class AppointmentRequest
 {
     public DateTime StartTime { get; set; }
     public bool IsRegularClient { get; set; }
-    public required string ClientId { get; set; }
-    public required string MasterId { get; set; }
-    public required string ServiceId { get; set; }
+    public int ClientId { get; set; }
+    public int MasterId { get; set; }
+    public int ServiceId { get; set; }
 }
 
 [ApiController]
@@ -35,7 +35,7 @@ public class AppointmentsController : ControllerBase
 
     // GET: api/appointments/{id}
     [HttpGet("{id}")]
-    public ActionResult<Appointment> GetById(string id)
+    public ActionResult<Appointment> GetById(int id)
     {
         var appointment = _store.Appointments.FirstOrDefault(a => a.Id == id);
         if (appointment == null) return NotFound();
@@ -60,7 +60,7 @@ public class AppointmentsController : ControllerBase
         // 2. Создаем запись, заполняя required-свойства
         var appointment = new Appointment
         {
-            Id = Guid.NewGuid().ToString("N")[..8],
+            Id = _store.Appointments.Any() ? _store.Appointments.Max(a => a.Id) + 1 : 1,
             StartTime = request.StartTime,
             IsRegularClient = request.IsRegularClient,
             ClientId = client.Id,
@@ -79,7 +79,7 @@ public class AppointmentsController : ControllerBase
 
     // PUT: api/appointments/{id}
     [HttpPut("{id}")]
-    public IActionResult Update(string id, [FromBody] AppointmentRequest request)
+    public IActionResult Update(int id, [FromBody] AppointmentRequest request)
     {
         var appointment = _store.Appointments.FirstOrDefault(a => a.Id == id);
         if (appointment == null) return NotFound();
@@ -109,7 +109,7 @@ public class AppointmentsController : ControllerBase
 
     // DELETE: api/appointments/{id}
     [HttpDelete("{id}")]
-    public IActionResult Delete(string id)
+    public IActionResult Delete(int id)
     {
         var appointment = _store.Appointments.FirstOrDefault(a => a.Id == id);
         if (appointment == null) return NotFound();

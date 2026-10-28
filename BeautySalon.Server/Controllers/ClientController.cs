@@ -24,7 +24,7 @@ public class ClientsController : ControllerBase
 
     // GET: api/clients/{id}
     [HttpGet("{id}")]
-    public ActionResult<Client> GetById(string id)
+    public ActionResult<Client> GetById(int id)
     {
         var client = _store.Clients.FirstOrDefault(c => c.Id == id);
         if (client == null) return NotFound();
@@ -35,10 +35,8 @@ public class ClientsController : ControllerBase
     [HttpPost]
     public ActionResult<Client> Create([FromBody] Client client)
     {
-        if (string.IsNullOrEmpty(client.Id))
-        {
-            client.Id = Guid.NewGuid().ToString("N")[..8]; 
-        }
+        client.Id = _store.Clients.Any() ? _store.Clients.Max(c => c.Id) + 1 : 1;
+        _store.Clients.Add(client);
         
         _store.Clients.Add(client);
         _store.SaveChanges();
@@ -48,7 +46,7 @@ public class ClientsController : ControllerBase
 
     // PUT: api/clients/{id}
     [HttpPut("{id}")]
-    public IActionResult Update(string id, [FromBody] Client updatedClient)
+    public IActionResult Update(int id, [FromBody] Client updatedClient)
     {
         var client = _store.Clients.FirstOrDefault(c => c.Id == id);
         if (client == null) return NotFound();
@@ -65,7 +63,7 @@ public class ClientsController : ControllerBase
 
     // DELETE: api/clients/{id}
     [HttpDelete("{id}")]
-    public IActionResult Delete(string id)
+    public IActionResult Delete(int id)
     {
         var client = _store.Clients.FirstOrDefault(c => c.Id == id);
         if (client == null) return NotFound();

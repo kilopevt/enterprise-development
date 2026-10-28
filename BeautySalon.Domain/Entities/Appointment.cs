@@ -8,7 +8,7 @@ public class Appointment
     /// <summary>
     /// Уникальный идентификатор.
     /// </summary>
-    public required string Id { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Дата и время начала записи.
@@ -23,7 +23,7 @@ public class Appointment
     /// <summary>
     /// Идентификатор клиента.
     /// </summary>
-    public required string ClientId { get; set; }
+    public int ClientId { get; set; }
 
     /// <summary>
     /// Клиент, записанный на услугу.
@@ -33,7 +33,7 @@ public class Appointment
     /// <summary>
     /// Идентификатор мастера.
     /// </summary>
-    public required string MasterId { get; set; }
+    public int MasterId { get; set; }
 
     /// <summary>
     /// Мастер, оказывающий услугу.
@@ -43,7 +43,7 @@ public class Appointment
     /// <summary>
     /// Идентификатор услуги.
     /// </summary>
-    public required string ServiceId { get; set; }
+    public int ServiceId { get; set; }
 
     /// <summary>
     /// Оказываемая услуга.

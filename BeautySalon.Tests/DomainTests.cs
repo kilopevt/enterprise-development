@@ -1,6 +1,3 @@
-using BeautySalon.Domain.Entities;
-using Xunit;
-
 namespace BeautySalon.Tests;
 
 /// <summary>
@@ -8,7 +5,9 @@ namespace BeautySalon.Tests;
 /// </summary>
 public class DomainTests
 {
-    // 1. Мастера со стажем не менее 5 лет
+    /// <summary>
+    /// 1. Мастера со стажем не менее 5 лет
+    /// </summary>
     [Fact]
     public void ShouldReturnOnlyMastersWithAtLeast5YearsExperience()
     {
@@ -19,18 +18,19 @@ public class DomainTests
 
         // Assert
         Assert.Equal(2, result.Count);
-        Assert.Equal(new[] { TestData.Master10Years.Id, TestData.Master7Years.Id }, result.Select(m => m.Id).ToArray());
-        Assert.DoesNotContain(result, m => m.Id == TestData.Master2Years.Id);
+        Assert.Equal(new[] { TestData.Master10YearsId, TestData.Master7YearsId }, result.Select(m => m.Id).ToArray());
+        Assert.DoesNotContain(result, m => m.Id == TestData.Master2YearsId);
     }
 
-    // 2. Окошки выбранного мастера
+    /// </summary>
+    /// 2. Окошки выбранного мастера
+    /// </summary>
     [Fact]
     public void ShouldReturnPositiveTimeGapsBetweenMasterAppointments()
     {
         // Arrange
-        var master = TestData.Master10Years;
         var appointments = TestData.Appointments
-            .Where(a => a.MasterId == master.Id)
+            .Where(a => a.MasterId == TestData.Master10YearsId)
             .OrderBy(a => a.StartTime)
             .ToList();
 
@@ -54,7 +54,9 @@ public class DomainTests
         Assert.Equal(TimeSpan.FromHours(1), gaps[1]);
     }
 
-    // 3. Топ 5 популярных услуг
+    /// <summary>
+    /// 3. Топ 5 популярных услуг
+    /// </summary>
     [Fact]
     public void ShouldReturnTop5ServicesOrderedByAppointmentCount()
     {
@@ -74,14 +76,14 @@ public class DomainTests
         Assert.Equal(5, top5.Count);
 
         // Топ: Стрижка(5), Маникюр(4), Массаж(3).
-        Assert.Equal(TestData.ServicePopular.Id, top5[0].Service.Id);
-        Assert.Equal(TestData.ServiceSecond.Id,  top5[1].Service.Id);
-        Assert.Equal(TestData.ServiceThird.Id,   top5[2].Service.Id);
+        Assert.Equal(TestData.ServicePopularId, top5[0].Service.Id);
+        Assert.Equal(TestData.ServiceSecondId,  top5[1].Service.Id);
+        Assert.Equal(TestData.ServiceThirdId,   top5[2].Service.Id);
         
         // Педикюр(2) и Ботокс(2) делят 4-5 места, порядок может быть разным.
         var top4And5 = top5.Skip(3).Select(x => x.Service.Id).ToList();
-        Assert.Contains(TestData.ServiceFourth.Id, top4And5);
-        Assert.Contains(TestData.ServiceUnpopular.Id, top4And5);
+        Assert.Contains(TestData.ServiceFourthId, top4And5);
+        Assert.Contains(TestData.ServiceUnpopularId, top4And5);
 
         Assert.Equal(5, top5[0].Count);
         Assert.Equal(4, top5[1].Count);
@@ -90,10 +92,12 @@ public class DomainTests
         Assert.Equal(2, top5[4].Count);
 
         // Услуга с 1 записью не должна попасть в топ
-        Assert.DoesNotContain(top5, x => x.Service.Id == TestData.ServiceFifth.Id);
+        Assert.DoesNotContain(top5, x => x.Service.Id == TestData.ServiceFifthId);
     }
 
-    // 4. Повторные записи клиентов за последний месяц
+    /// <summary>
+    /// 4. Повторные записи клиентов за последний месяц
+    /// </summary>
     [Fact]
     public void ShouldReturnRepeatAppointmentCountsForLastMonth()
     {
@@ -113,7 +117,9 @@ public class DomainTests
         Assert.DoesNotContain(repeatClients, rc => rc.ClientId == TestData.Clients[3].Id);
     }
 
-    // 5. Клиенты у нескольких мастеров, сортировка по дате рождения
+    /// <summary>
+    /// 5. Клиенты у нескольких мастеров, сортировка по дате рождения
+    /// </summary>
     [Fact]
     public void ShouldReturnClientsWithMultipleMastersOrderedByBirthDate()
     {
@@ -127,8 +133,8 @@ public class DomainTests
 
         // Assert
         Assert.Equal(3, clients.Count);
-        Assert.Equal(TestData.ClientOld.Id,    clients[0].Id);
-        Assert.Equal(TestData.ClientMiddle.Id, clients[1].Id);
-        Assert.Equal(TestData.ClientYoung.Id,  clients[2].Id);
+        Assert.Equal(TestData.ClientOldId,    clients[0].Id);
+        Assert.Equal(TestData.ClientMiddleId, clients[1].Id);
+        Assert.Equal(TestData.ClientYoungId,  clients[2].Id);
     }
 }
