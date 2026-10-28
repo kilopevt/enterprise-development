@@ -4,17 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySalon.Server.Controllers;
 
+/// <summary>
+/// CRUD-операции над клиентами салона.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class ClientsController : ControllerBase
+public class ClientsController(ISalonDataStore _store) : ControllerBase
 {
-    private readonly ISalonDataStore _store;
-
-    public ClientsController(ISalonDataStore store)
-    {
-        _store = store;
-    }
-
+    /// <summary>
+    /// Возвращает всех клиентов.
+    /// </summary>
     // GET: api/clients
     [HttpGet]
     public ActionResult<IEnumerable<Client>> GetAll()
@@ -22,6 +21,9 @@ public class ClientsController : ControllerBase
         return Ok(_store.Clients);
     }
 
+    /// <summary>
+    /// Возвращает клиента по идентификатору.
+    /// </summary>
     // GET: api/clients/{id}
     [HttpGet("{id}")]
     public ActionResult<Client> GetById(int id)
@@ -31,6 +33,9 @@ public class ClientsController : ControllerBase
         return Ok(client);
     }
 
+    /// <summary>
+    /// Создает нового клиента.
+    /// </summary>
     // POST: api/clients
     [HttpPost]
     public ActionResult<Client> Create([FromBody] Client client)
@@ -44,6 +49,9 @@ public class ClientsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = client.Id }, client);
     }
 
+    /// <summary>
+    /// Обновляет данные клиента по идентификатору.
+    /// </summary>
     // PUT: api/clients/{id}
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] Client updatedClient)
@@ -61,6 +69,9 @@ public class ClientsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Удаляет клиента по идентификатору.
+    /// </summary>
     // DELETE: api/clients/{id}
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)

@@ -20,11 +20,8 @@ builder.Services.AddSingleton<ISalonDataStore, InMemorySalonDataStore>();
 var app = builder.Build();
 
 // Настраиваем Swagger UI
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapControllers();
 

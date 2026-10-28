@@ -4,17 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySalon.Server.Controllers;
 
+/// <summary>
+/// CRUD-операции над услугами салона.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class ServicesController : ControllerBase
+public class ServicesController(ISalonDataStore _store) : ControllerBase
 {
-    private readonly ISalonDataStore _store;
-
-    public ServicesController(ISalonDataStore store)
-    {
-        _store = store;
-    }
-
+    /// <summary>
+    /// Возвращает все услуги.
+    /// </summary>
     // GET: api/services
     [HttpGet]
     public ActionResult<IEnumerable<Service>> GetAll()
@@ -22,6 +21,9 @@ public class ServicesController : ControllerBase
         return Ok(_store.Services);
     }
 
+    /// <summary>
+    /// Возвращает услугу по идентификатору.
+    /// </summary>
     // GET: api/services/{id}
     [HttpGet("{id}")]
     public ActionResult<Service> GetById(int id)
@@ -31,6 +33,9 @@ public class ServicesController : ControllerBase
         return Ok(service);
     }
 
+    /// <summary>
+    /// Создает новую услугу.
+    /// </summary>
     // POST: api/services
     [HttpPost]
     public ActionResult<Service> Create([FromBody] Service service)
@@ -43,6 +48,9 @@ public class ServicesController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = service.Id }, service);
     }
 
+    /// <summary>
+    /// Обновляет данные услуги по идентификатору.
+    /// </summary>
     // PUT: api/services/{id}
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] Service updatedService)
@@ -59,6 +67,9 @@ public class ServicesController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Удаляет услугу по идентификатору.
+    /// </summary>
     // DELETE: api/services/{id}
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)

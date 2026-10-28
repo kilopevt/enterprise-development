@@ -3,17 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySalon.Server.Controllers;
 
+/// <summary>
+/// Аналитические запросы по данным салона.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class AnalyticsController : ControllerBase
+public class AnalyticsController(ISalonDataStore _store) : ControllerBase
 {
-    private readonly ISalonDataStore _store;
-
-    public AnalyticsController(ISalonDataStore store)
-    {
-        _store = store;
-    }
-
+    /// <summary>
+    /// Мастера со стажем не менее указанного количества лет.
+    /// </summary>
     [HttpGet("masters-with-experience")]
     public IActionResult GetMastersWithExperience([FromQuery] int minYears = 5)
     {
@@ -25,6 +24,9 @@ public class AnalyticsController : ControllerBase
         return Ok(new { MinYears = minYears, Count = result.Count, Masters = result });
     }
 
+    /// <summary>
+    /// Временные промежутки между записями выбранного мастера.
+    /// </summary>
     [HttpGet("master-gaps/{masterId}")] 
     public IActionResult GetMasterTimeGaps(int masterId)
     {
@@ -71,6 +73,9 @@ public class AnalyticsController : ControllerBase
         return Ok(new { MasterId = masterId, MasterName = master.FullName, GapsCount = gaps.Count, Gaps = gaps });
     }
 
+    /// <summary>
+    /// Топ самых популярных услуг.
+    /// </summary>
     [HttpGet("top-services")]
     public IActionResult GetTopServices([FromQuery] int take = 5)
     {
@@ -90,6 +95,9 @@ public class AnalyticsController : ControllerBase
         return Ok(top);
     }
 
+    /// <summary>
+    /// Клиенты с повторными записями за указанный период.
+    /// </summary>
     [HttpGet("repeat-clients")]
     public IActionResult GetRepeatClients([FromQuery] int days = 30)
     {
@@ -111,6 +119,9 @@ public class AnalyticsController : ControllerBase
         return Ok(new { PeriodDays = days, ClientsWithRepeats = repeats.Count, Details = repeats });
     }
 
+    /// <summary>
+    /// Клиенты, записанные к нескольким мастерам, отсортированные по дате рождения.
+    /// </summary>
     [HttpGet("clients-multiple-masters")]
     public IActionResult GetClientsWithMultipleMasters()
     {

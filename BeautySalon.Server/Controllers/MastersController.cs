@@ -4,17 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySalon.Server.Controllers;
 
+/// <summary>
+/// CRUD-операции над мастерами салона.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class MastersController : ControllerBase
+public class MastersController(ISalonDataStore _store) : ControllerBase
 {
-    private readonly ISalonDataStore _store;
-
-    public MastersController(ISalonDataStore store)
-    {
-        _store = store;
-    }
-
+    /// <summary>
+    /// Возвращает всех мастеров.
+    /// </summary>
     // GET: api/masters
     [HttpGet]
     public ActionResult<IEnumerable<Master>> GetAll()
@@ -22,6 +21,9 @@ public class MastersController : ControllerBase
         return Ok(_store.Masters);
     }
 
+    /// <summary>
+    /// Возвращает мастера по идентификатору.
+    /// </summary>
     // GET: api/masters/{id}
     [HttpGet("{id}")]
     public ActionResult<Master> GetById(int id)
@@ -31,6 +33,9 @@ public class MastersController : ControllerBase
         return Ok(master);
     }
 
+    /// <summary>
+    /// Создает нового мастера.
+    /// </summary>
     // POST: api/masters
     [HttpPost]
     public ActionResult<Master> Create([FromBody] Master master)
@@ -43,6 +48,9 @@ public class MastersController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = master.Id }, master);
     }
 
+    /// <summary>
+    /// Обновляет данные мастера по идентификатору.
+    /// </summary>
     // PUT: api/masters/{id}
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] Master updatedMaster)
@@ -60,6 +68,9 @@ public class MastersController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Удаляет мастера по идентификатору.
+    /// </summary>
     // DELETE: api/masters/{id}
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)

@@ -15,17 +15,16 @@ public class AppointmentRequest
     public int ServiceId { get; set; }
 }
 
+/// <summary>
+/// CRUD-операции над записями клиентов к мастерам.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class AppointmentsController : ControllerBase
+public class AppointmentsController(ISalonDataStore _store) : ControllerBase
 {
-    private readonly ISalonDataStore _store;
-
-    public AppointmentsController(ISalonDataStore store)
-    {
-        _store = store;
-    }
-
+    /// <summary>
+    /// Возвращает все записи.
+    /// </summary>
     // GET: api/appointments
     [HttpGet]
     public ActionResult<IEnumerable<Appointment>> GetAll()
@@ -33,6 +32,9 @@ public class AppointmentsController : ControllerBase
         return Ok(_store.Appointments);
     }
 
+    /// <summary>
+    /// Возвращает запись по идентификатору.
+    /// </summary>
     // GET: api/appointments/{id}
     [HttpGet("{id}")]
     public ActionResult<Appointment> GetById(int id)
@@ -42,6 +44,9 @@ public class AppointmentsController : ControllerBase
         return Ok(appointment);
     }
 
+    /// <summary>
+    /// Создает новую запись.
+    /// </summary>
     // POST: api/appointments
     [HttpPost]
     public ActionResult<Appointment> Create([FromBody] AppointmentRequest request)
@@ -77,6 +82,9 @@ public class AppointmentsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = appointment.Id }, appointment);
     }
 
+    /// <summary>
+    /// Обновляет запись.
+    /// </summary>
     // PUT: api/appointments/{id}
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] AppointmentRequest request)
@@ -107,6 +115,9 @@ public class AppointmentsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Удаляет запись по идентификатору.
+    /// </summary>
     // DELETE: api/appointments/{id}
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
