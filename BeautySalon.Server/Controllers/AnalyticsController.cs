@@ -25,8 +25,7 @@ public class AnalyticsController : ControllerBase
         return Ok(new { MinYears = minYears, Count = result.Count, Masters = result });
     }
 
-    // ИСПРАВЛЕНО: string masterId -> int masterId
-    [HttpGet("master-gaps/{masterId:int}")] 
+    [HttpGet("master-gaps/{masterId}")] 
     public IActionResult GetMasterTimeGaps(int masterId)
     {
         var master = _store.Masters.FirstOrDefault(m => m.Id == masterId);

@@ -23,7 +23,7 @@ public class ServicesController : ControllerBase
     }
 
     // GET: api/services/{id}
-    [HttpGet("{id:int}")]
+    [HttpGet("{id}")]
     public ActionResult<Service> GetById(int id)
     {
         var service = _store.Services.FirstOrDefault(s => s.Id == id);
@@ -44,7 +44,7 @@ public class ServicesController : ControllerBase
     }
 
     // PUT: api/services/{id}
-    [HttpPut("{id:int}")]
+    [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] Service updatedService)
     {
         var service = _store.Services.FirstOrDefault(s => s.Id == id);
@@ -60,7 +60,7 @@ public class ServicesController : ControllerBase
     }
 
     // DELETE: api/services/{id}
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
         var service = _store.Services.FirstOrDefault(s => s.Id == id);

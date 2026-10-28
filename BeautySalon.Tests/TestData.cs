@@ -156,34 +156,31 @@ internal static class TestData
 
         var now = DateTime.Now;
         var id = 401;
-        var list = new List<Appointment>();
+        var list = new List<Appointment>
+        {
+            // 1. Окошки для master10 (ровно 3 записи, 2 окошка по часу)
+            Make(id++, now.Date.AddDays(-10).AddHours(10), master10, clientOld, servicePopular),
+            Make(id++, now.Date.AddDays(-10).AddHours(12), master10, clientMiddle, serviceSecond),
+            Make(id++, now.Date.AddDays(-10).AddHours(14), master10, clientYoung, serviceThird),
 
-        // 1. Окошки для master10 (ровно 3 записи, 2 окошка по часу)
-        list.Add(Make(id++, now.Date.AddDays(-10).AddHours(10), master10, clientOld, servicePopular));
-        list.Add(Make(id++, now.Date.AddDays(-10).AddHours(12), master10, clientMiddle, serviceSecond));
-        list.Add(Make(id++, now.Date.AddDays(-10).AddHours(14), master10, clientYoung, serviceThird));
+            // 2. Популярность услуг: Стрижка=5, Маникюр=4, Массаж=3, Педикюр=2, Ботокс=2, Чистка=1 
+            Make(id++, now.AddDays(-5), master7, clientOld, servicePopular),
+            Make(id++, now.AddDays(-4), master7, clientOld, servicePopular),
+            Make(id++, now.AddDays(-3), master7, clientMiddle, servicePopular),
+            Make(id++, now.AddDays(-2), master7, clientYoung, servicePopular),
+            Make(id++, now.AddDays(-5), master2, clientMiddle, serviceSecond),
+            Make(id++, now.AddDays(-4), master2, clientYoung, serviceSecond),
+            Make(id++, now.AddDays(-3), master2, clientOld, serviceSecond),
+            Make(id++, now.AddDays(-2), master2, clientOld, serviceThird),
+            Make(id++, now.AddDays(-1), master2, clientMiddle, serviceThird),
+            Make(id++, now.AddDays(-1), master7, clientYoung, serviceFourth),
+            Make(id++, now.AddDays(-1), master2, clientYoung, serviceFourth),
+            Make(id++, now.AddDays(-1), master7, clientOld, serviceFifth),
 
-        // 2. Популярность услуг: Стрижка=5, Маникюр=4, Массаж=3, Педикюр=2, Ботокс=2, Чистка=1 
-        list.Add(Make(id++, now.AddDays(-5), master7, clientOld, servicePopular));
-        list.Add(Make(id++, now.AddDays(-4), master7, clientOld, servicePopular));
-        list.Add(Make(id++, now.AddDays(-3), master7, clientMiddle, servicePopular));
-        list.Add(Make(id++, now.AddDays(-2), master7, clientYoung, servicePopular));
-
-        list.Add(Make(id++, now.AddDays(-5), master2, clientMiddle, serviceSecond));
-        list.Add(Make(id++, now.AddDays(-4), master2, clientYoung, serviceSecond));
-        list.Add(Make(id++, now.AddDays(-3), master2, clientOld, serviceSecond));
-
-        list.Add(Make(id++, now.AddDays(-2), master2, clientOld, serviceThird));
-        list.Add(Make(id++, now.AddDays(-1), master2, clientMiddle, serviceThird));
-
-        list.Add(Make(id++, now.AddDays(-1), master7, clientYoung, serviceFourth));
-        list.Add(Make(id++, now.AddDays(-1), master2, clientYoung, serviceFourth));
-
-        list.Add(Make(id++, now.AddDays(-1), master7, clientOld, serviceFifth));
-
-        // 3. Одиночный клиент: 1 запись в последний месяц, 1 старше 30 дней
-        list.Add(Make(id++, now.AddDays(-7), master7, clientSingle, serviceUnpopular));
-        list.Add(Make(id++, now.AddDays(-45), master7, clientSingle, serviceUnpopular));
+            // 3. Одиночный клиент: 1 запись в последний месяц, 1 старше 30 дней
+            Make(id++, now.AddDays(-7), master7, clientSingle, serviceUnpopular),
+            Make(id++, now.AddDays(-45), master7, clientSingle, serviceUnpopular)
+        };
 
         return list;
     }
